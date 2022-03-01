@@ -1,9 +1,9 @@
 
-//"j0.txt="
+
 
 #include <stm32g0xx.h>
 
-int printFourScreen(char *dataField, uint16_t value, UART_HandleTypeDef *uartADDR){
+HAL_StatusTypeDef printFourScreen(char *dataField, uint16_t value, UART_HandleTypeDef *uartADDR){
 	 uint8_t screenData[16];
 
 

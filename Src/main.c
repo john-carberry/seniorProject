@@ -104,71 +104,11 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  uint8_t I2C_data = 0x04;
-  uint8_t I2C_readL;
-  uint8_t I2C_readH;
 
-#if testMode
-  uint8_t testOK = 0;
-  uint8_t dog = 8;
-#endif // testMode
-#if testMode2
-  uint8_t testValue[2];
-#endif //testMode2
   while (1)
   {
-
-#if testMode
-	  testOK = 0;
-	  if(HAL_I2C_IsDeviceReady(&hi2c1,0xC400, 100,1000) == HAL_OK){
-		  testOK = 1;
-		  HAL_UART_Transmit(&huart1, &testOK, 1,500);
-	  }
-	  else{
-		  testOK = 2;
-		  HAL_UART_Transmit(&huart1, &testOK, 1,500);
-	  }
-	  if(HAL_I2C_IsDeviceReady(&hi2c1,0x00C4, 100,1000) == HAL_OK){
-		  testOK = 3;
-		  HAL_UART_Transmit(&huart1, &testOK, 1,500);
-	  }
-	  else{
-		  testOK = 4;
-		  HAL_UART_Transmit(&huart1, &testOK, 1,500);
-	  }
-	  if(HAL_I2C_IsDeviceReady(&hi2c1,0xC500, 100,1000) == HAL_OK){
-		  testOK = 5;
-		  HAL_UART_Transmit(&huart1, &testOK, 1,500);
-	  }
-	  else{
-		  testOK = 6;
-		  HAL_UART_Transmit(&huart1, &testOK, 1,500);
-	  }
-	  if(HAL_I2C_IsDeviceReady(&hi2c1,0x00C5, 100,1000) == HAL_OK){
-		  testOK = 7;
-		  HAL_UART_Transmit(&huart1, &testOK, 1,500);
-	  }
-	  else{
-		  testOK = 8;
-		  HAL_UART_Transmit(&huart1, &testOK, 1,500);
-	  }
-#endif // testMode
-	  I2C_readL = 0;
-	  I2C_readH = 0;
-	  while((I2C_readL & 0x01) != 0x01){
-		  HAL_I2C_Mem_Write(&hi2c1, 0X00C4, 0x00,1, &I2C_data, 1, 100);
-		  //Read
-
-		  HAL_I2C_Mem_Read(&hi2c1, 0X00C5, 0x01,1, &I2C_readL, 1, 100);
-#if testMode
-		  HAL_UART_Transmit(&huart1, &dog, 1,500);
-		  HAL_UART_Transmit(&huart1, &I2C_readL, 1,500);
-#endif // testMode
-
-	  }
-	  HAL_I2C_Mem_Read(&hi2c1, 0X00C5, 0x0f,1, &I2C_readH, 1, 100);
-	  HAL_I2C_Mem_Read(&hi2c1, 0X00C5, 0x10,1, &I2C_readL, 1, 100);
-	  uint16_t finalNumber = (((uint16_t)I2C_readH) << 8) | ((uint16_t)I2C_readL);
+	//&hi2c1
+	  uint16_t lidarSpeed = getSpeedLidar(&hi2c1);
 
 
 #if testMode2
@@ -195,7 +135,7 @@ int main(void)
 
 	  //finaldata[0] = ;
 	  //finaldata[1] = I2C_readH;
-	  HAL_UART_Transmit(&huart1, finalData, 21,500);
+	  HAL_UART_Transmit(&huart1, lidarSpeed, 21,500);
 
 	  HAL_Delay (250);
 #endif//usbMode
@@ -203,7 +143,7 @@ int main(void)
 #if screenMode
 
 	  char screenField[7] = "j0.txt=";
-	  printFourScreen(screenField, finalNumber, &huart1);
+	  printFourScreen(screenField, lidarSpeed, &huart1);
 	  HAL_Delay (250);
 
 #endif //screenMode

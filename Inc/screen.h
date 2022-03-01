@@ -13,7 +13,7 @@
 
 
 
-int printFourScreen(char *dataField, uint16_t value, UART_HandleTypeDef *uartADDR);
+HAL_StatusTypeDef printFourScreen(char *dataField, uint16_t value, UART_HandleTypeDef *uartADDR);
 
 
 #endif /* INC_SCREEN_H_ */
