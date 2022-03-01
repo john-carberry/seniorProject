@@ -201,24 +201,10 @@ int main(void)
 #endif//usbMode
 
 #if screenMode
-	 uint8_t screenData[16];
-	 char screenMessage[10] = "j0.txt=";
-	 for (int i = 0; i < 3; i++){
-		 screenData[i] = 0xFF;
-	 }
-	 for(int i = 3; i < 10; i++){
-		 screenData[i] = screenMessage[i-3];
-	 }
-	  screenData[10] = 0x22;
-	  screenData[11] = (finalNumber / 1000) + 48;
-	  screenData[12] = ((finalNumber % 1000) / 100) + 48;
-	  screenData[13] = ((finalNumber % 100) / 10) + 48;
-	  screenData[14] = (finalNumber % 10) + 48;
-	  screenData[15] = 0x22;
-	  HAL_UART_Transmit(&huart1, screenData, 16,500);
+
+	  char screenField[7] = "j0.txt=";
+	  printFourScreen(screenField, finalNumber, &huart1);
 	  HAL_Delay (250);
-
-
 
 #endif //screenMode
 
