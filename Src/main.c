@@ -108,8 +108,8 @@ int main(void)
   while (1)
   {
 	//&hi2c1
-	  uint16_t lidarSpeed = getSpeedLidar(&hi2c1);
-
+	  uint16_t lidarDistance = getDistanceLidar(&hi2c1);
+	  int lidarSpeed = getSpeedLidar(lidarDistance);
 
 #if testMode2
 		  //HAL_UART_Transmit(&huart1, &dog, 1,500);
@@ -135,7 +135,7 @@ int main(void)
 
 	  //finaldata[0] = ;
 	  //finaldata[1] = I2C_readH;
-	  HAL_UART_Transmit(&huart1, lidarSpeed, 21,500);
+	  HAL_UART_Transmit(&huart1, lidarDistance, 21,500);
 
 	  HAL_Delay (250);
 #endif//usbMode
@@ -143,7 +143,10 @@ int main(void)
 #if screenMode
 
 	  char screenField[7] = "j0.txt=";
-	  printFourScreen(screenField, lidarSpeed, &huart1);
+	  printFourScreen(screenField, lidarDistance, &huart1);
+
+	  screenField[1] = '1';
+	  printFourScreen(screenField, (uint16_t)lidarSpeed, &huart1);
 	  HAL_Delay (250);
 
 #endif //screenMode
