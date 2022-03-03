@@ -110,6 +110,7 @@ int main(void)
 	//&hi2c1
 	  uint16_t lidarDistance = getDistanceLidar(&hi2c1);
 	  int lidarSpeed = getSpeedLidar(lidarDistance);
+	  int lidarAcc = getAccLidar(lidarSpeed);
 
 #if testMode2
 		  //HAL_UART_Transmit(&huart1, &dog, 1,500);
@@ -147,7 +148,10 @@ int main(void)
 
 	  screenField[1] = '1';
 	  printFourScreen(screenField, (uint16_t)lidarSpeed, &huart1);
-	  HAL_Delay (250);
+	  //HAL_Delay (250);
+
+	  screenField[1] = '2';
+	  printFourScreen(screenField, (uint16_t)lidarAcc, &huart1);
 
 #endif //screenMode
 

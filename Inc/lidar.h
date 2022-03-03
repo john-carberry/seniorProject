@@ -10,6 +10,7 @@
 
 uint16_t getDistanceLidar(I2C_HandleTypeDef * I2C);
 uint16_t getSpeedLidar(uint16_t distance);
+uint16_t getAccLidar(uint16_t speed);
 
 
 #endif /* INC_LIDAR_H_ */
