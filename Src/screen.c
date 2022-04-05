@@ -22,3 +22,22 @@ HAL_StatusTypeDef printFourScreen(char *dataField, uint16_t value, UART_HandleTy
 	  return HAL_UART_Transmit(uartADDR, screenData, 16,500);
 
 }
+
+
+HAL_StatusTypeDef switchScreen(uint16_t screen, UART_HandleTypeDef *uartADDR){
+	uint8_t screenData[13];
+	for (int i = 0; i < 3; i++){
+			 screenData[i] = 0xFF;
+		 }
+	screenData[4] = "p";
+	screenData[5] = "a";
+	screenData[6] = "g";
+	screenData[7] = "e";
+	screenData[8] = " ";
+	screenData[9] = screen + 48;
+	for (int i = 10; i < 13; i++){
+			 screenData[i] = 0xFF;
+		 }
+	return HAL_UART_Transmit(uartADDR, screenData, 10,500);
+
+}

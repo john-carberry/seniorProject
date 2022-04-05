@@ -10,11 +10,11 @@
 #include <stm32g0xx.h>
 
 
-static int speedTable[10];
+static int speedTable[5];
 static int pastDistance = 0;
 static uint32_t beginTimeS = 0;
 
-static int accTable[10];
+static int accTable[5];
 static int pastSpeed = 0;
 static uint32_t beginTimeA = 0;
 
@@ -60,21 +60,21 @@ uint16_t getSpeedLidar(uint16_t distance){
 	}
 	pastDistance = distance;
 	uDelta = (uint32_t)delta;
-	uint32_t speed = uDelta * 100 / (uint32_t)(HAL_GetTick()- beginTimeS);
+	uint32_t speed = (uDelta * 100) / (uint32_t)(HAL_GetTick()- beginTimeS);
 
 	sumVal = 0;
-	for(int i = 0; i < 10; i++){
+	for(int i = 0; i < 5; i++){
 		sumVal = speedTable[i] + sumVal;
 	}
 	sumVal = sumVal + speed;
 
 
-	for(int i = 9; i > 0; i--){
+	for(int i = 4; i > 0; i--){
 		speedTable[i] = speedTable[i-1];
 	}
 
 	speedTable[0] = speed;
-	speed = sumVal / 10;
+	speed = sumVal / 5;
 
 
 
@@ -101,21 +101,22 @@ uint16_t getAccLidar(uint16_t speed){
 	}
 	pastSpeed = speed;
 	uDelta = (uint32_t)delta;
-	uint32_t acceleration = uDelta * 1000 / (uint32_t)(HAL_GetTick()- beginTimeA);
+	uint32_t acceleration = (uDelta * 1000) / (uint32_t)(HAL_GetTick()- beginTimeA);
+
 
 	sumVal = 0;
-	for(int i = 0; i < 10; i++){
+	for(int i = 0; i < 5; i++){
 		sumVal = accTable[i] + sumVal;
 	}
 	sumVal = sumVal + acceleration;
 
 
-	for(int i = 9; i > 0; i--){
+	for(int i = 4; i > 0; i--){
 		accTable[i] = accTable[i-1];
 	}
 
 	accTable[0] = acceleration;
-	acceleration = sumVal / 10;
+	acceleration = sumVal / 5;
 
 
 
